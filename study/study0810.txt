@@ -1,0 +1,37 @@
+# CNN_parameter
+ :  ( channel * kernal_size  * filter ) + ( bias * filter)
+   = ( input_dim * kernal_size +  1 ) * output
+ ex) (     1     *  (2 * 2)    +  1 ) *   10
+
+-> stride는 output의 크기에만 영향을 미치고 parameter 수에는 영향을 미치지 않는다.
+http://aikorea.org/cs231n/convolutional-networks/ 참고
+
+# CNN_Output_Size
+ : [(N - F + 2*padding_size) / stride] + 1 
+ :이 사이즈의 그림이 이전 filter 수많큼 생성된다.
+                                                                         layer의 node수를 통해 data증폭
+ ex) Conv2D(10, (3, 3), input_shape = (10, 10, 1)) => (None, 8, 8, 10) : (8 * 8) 이 10장 생성된다. (증폭)
+     Conv2D( 7, (4, 4))                            => (None, 5, 5,  7) : (5 * 5) 이  7장 생성된다. (증폭)
+
+# hyperparameter 튜닝
+'''
+GridSearch 는 우리가 지정해준 몇 가지 잠재적
+Parameter들의 후보군들의 조합 중에서 가장 Best 조합을 찾아줍니다.
+어떻게 보면 우리가 하나하나 대입해 가면서 loss를 확인하는 작업을
+GridSearch는 대신 해준다고 보면 됩니다.
+또한, sklearn 패키지에서 제공해주고 있기때문에 매우 손쉽게 사용할 수 있습니다.
+
+하지만, 가장 큰 단점은 우리가 지정해 준 hyperparameter 후보군의 갯수만큼
+비례하여 시간이 늘어기 때문에 최적의 조합을 찾을 때까지
+시간이 매우 오래 걸린다는 단점이 있습니다.
+
+return_train_score : False일 경우 cv_results_ 속성이 교육 점수를 포함하지 않는다.
+'''
+'''
+gridsearch의 단점을 피하기 위해 나온 방법
+난수를 이용하여 매개변수 조합을 생성
+-> gridsearch는 매개변수가 될 수들을 미리 정하지만, random search는 난수를 사용
+이 때 각각의 매개변수 범위나 간격 등을 설정해야 함
+보통 논문을 보면 제시하는 기본값을 중심으로 적절한 범위를 설정함
+'''
+
