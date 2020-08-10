@@ -1,0 +1,156 @@
+LSTM
+                     행             열        몇개씩 자르는 지
+x.shape = ( batch_size , time_steps , feature )
+input_shape = (time_steps, feature )
+input_length = timesteps
+input_dim = feature
+                     x      | y
+               ---------------- 
+batch_size   1   2   3  | 4     : x의 한 행에 들어간 값을 몇개씩 자르느냐 = feature
+                2   3   4  | 5       ex) feature 1 : [1], [2], [3]
+                3   4   5  | 6       ex) feature 3 : [1, 2, 3]
+                4   5   6  | 7 
+                 time_step
+x.shape = (4, 3, 1)
+
+LSTM_parameter 계산
+ : num_params = 4 * ( num_units   +   input_dim   +   1 )  *  num_units
+                           (output node값)  (잘라준 data)   (bias)  (output node값)
+                     = 4 * (    10       +       1       +   1 )  *     10          = 480  
+                         역전파 : 나온 '출력' 값이 다시 '입력'으로 들어감(자기회귀)
+                        4 : LSTM_gate연산 ( forget, input, output_gate / cell_state)
+
+LSTM_model.add
+LSTM(node, input_shape, activation)
+LSTM(node, input_length, input_dim, activation)
+
+
+SimpleRNN_parameter 계산
+: num_params =  ( num_units   +   input_dim   +   1 )  *  num_units
+                      (output node값)  (잘라준 data)   (bias)  (output node값)
+                   =  (    10       +       1       +   1 )  *     10         = 120     
+                     역전파 : 나온 '출력' 값이 다시 '입력'으로 들어감(자기회귀)
+
+GRU(Gated Recurrent Unit)
+GRU_parameter 계산
+ : num_params = 3 * ( num_units   +   input_dim   +   1 )  *  num_units
+                           (output node값)  (잘라준 data)   (bias)  (output node값)
+                    = 3 * (    5        +       1       +   1 )  *     5          = 105     
+                       역전파 : 나온 '출력' 값이 다시 '입력'으로 들어감(자기회귀)
+                       3 : GRU_gate연산 ( update, reset_gate / hidden_state)
+
+LSTM2 = LSTM(10)(LSTM1, return_sequences= True)(LSTM1) 
+# return_sequences를 썼으면 무조건 LSTM사용
+
+'''
+# minmax_scalar   ( 정규화 )  =  ( x - min ) / ( max - min )
+  : 0 ~ 1 사이의 값으로 변환   
+# standard_scalar ( 표준화 )  =  ( x - x평균) / x표준편차      
+  : 0을 기준으로 모임 (정규분포 모양)
+# 표준편차 = [ sigma ( x - x평균)^2 ] / n        
+'''
+
+##### MinMax_scaler , Standard_scaler ###### 
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+
+# scaler = MinMaxScaler()
+scaler = StandardScaler()
+scaler.fit(x)
+# 전처리 실행 : x를 넣어서 MinMax_scaler, Standard_scaler 실행하겠다.
+#                   scaler에 실행한 값 저장 ( x의 범위 )
+x = scaler.transform(x)
+# x의 모양을 MinMaxScaler을 실행한 값으로 바꿔주겠다.
+x_predict = scaler.transform(x_predict)
+# x의 범위로 계산한 sclar 값에서 x_predict에 해당되는 값을 가져오겠다.
+
+모델 SAVE 방법
+model.save(".//model//save_keras44.h5")     #  . : 현재 폴더,  
+# model.save("./model/save_keras44.h5")     # // , / , \ : 하단 폴더
+# model.save(".\model\save_keras44.h5")
+# model.save("경로 / 파일 이름 .h5")
+
+전위 학습 : 저장한 model 불러오기
+# load_model 가져오기
+from keras.models import load_model
+# load_model( '경로 / 저장한 파일 이름' ) : model 불러오기
+model = load_model('./model/save_keras44.h5')
+# 가져온 모델의 layer에서 이미 쓴 이름이 나오기 때문에 이름을 다르게 지정해줘야 한다
+
+# hist = model.fit에 훈련시키고 난 loss, metrics안에 있는 값들을 반환한다.
+print(hist)     #자료형 모양 <keras.callbacks.callbacks.History object at 0x00000178F0734EC8> : 원래 안보여줌
+print(hist.history.keys())      # dict_keys(['loss', 'mse'])
+
+
+""" Tensorboard """
+from keras.callbacks import TensorBoard                                 # Tensorboard 가져오기
+tb_hist = TensorBoard(log_dir='graph', histogram_freq= 0 ,              # log_dir=' 폴더 ' : 제일 많이 틀림
+                      write_graph= True, write_images= True)           
+"""
+: 웹 상에서 graph를 볼 수 있게 만들어줌( log_dir=' 폴더 '에 tensorboard의 로그 저장 )
+: loss와 metrics 값 보여줌
+ # cmd 창에서 
+ 1. d:
+ 2. cd Study                                # 경로가 제일 많이 틀린다.
+ 3. cd graph
+ 4. tensorboard --logdir=.                   # 내 컴퓨터에서 tensorboard를 쓰겠다.
+ =>  127.0.0.1:6006 를 웹주소에 친다.
+     127.0.0.1 : 내 컴퓨터 IP
+     6006      : 포트 번호    -> 내 pc의 6006번 포트를 사용하겠다.
+"""
+
+
+활성화 함수
+: 계산된 함수(가중치)가 activation을 통해 다음 layer에 넘어간다. ( 가중치 x 활성화 함수 )
+: 가장 마지막 output layer값이 [ 가중치 x sigmoid ]로  반환된다.
+
+
+
+"""
+#Conv2D( 10,     (2, 2),     input_shape = (   10,    10,      1  ))
+       filter  kernal_size 
+               자르는 size  x = ( batch_size, heigth, width, channel )  4차원
+                                 행(장수)     세로    가로     색깔   = 1 (흑백), 3(컬러)
+                                                              색깔끼리 나눠준다.
+# CNN_Output_Size
+ : [(N - F + 2*padding_size) / stride] + 1 
+ :이 사이즈의 그림이 이전 filter 수많큼 생성된다.
+                                                                         layer의 node수를 통해 data증폭
+ ex) Conv2D(10, (3, 3), input_shape = (10, 10, 1)) => (None, 8, 8, 10) : (8 * 8) 이 10장 생성된다. (증폭)
+     Conv2D( 7, (4, 4))                            => (None, 5, 5,  7) : (5 * 5) 이  7장 생성된다. (증폭)
+     
+# Conv2D만 사용하여 layer구성시 문제점
+ : filter로 잘려져 중복된 부분이 훈련이 더 많이 된다. -> side는  훈련 1번             =>  상대적인 데이터 손실
+                                                   -> 중첩부분 훈련 2번 -> 값이 치중됨
+# padding
+ : side를 '0'으로 채워 side data도 동일하게 훈련될 수 있도록 해준다. 
+  -> 홀수로 채울시 padding을 입히는 위치는 머신이 정한다.                                                 
+  = 'same' : kernal_size와 상관없이 input_shape와 동일한 shape로 전달해준다.
+  = 'valid' : default, (유효한 영역만 출력, 따라서 출력 이미지 사이즈는 입력 사이즈보다 작다)
+# strides
+ : 필터의 이동 간격 
+ : 가로, 세로 따로 지정 가능 => strides = (2,1) : 세로 2칸, 가로 1칸 (),[] 둘다 가능
+ : 값이 커지면 data_size가 작아짐
+ : default = 1 
+# MaxPooling
+ : 필요없는 쓰레기 값을 버리고 중요부분(가장 큰 값)만 가져온다.
+ : 학습 parameter가 없다.
+ ex) 4 * 4 image
+     0  1  5  4        (2 * 2)
+     0 15 27 26    =>  15  27
+     0  4  7  8        5   13
+     0  5  6 13
+ 
+ : heigth(width) / pool_size = MaxPooling (나누고 난 후의 소수점은 버린다.)
+# Flatten
+ : data를 쫙 펴준다.
+ : data를 2차원으로 변형시켜 Dense형을 이용하여 우리가 볼수 있는 숫자로 나오게 한다. 
+ : 학습 parameter가 없다.
+# CNN_parameter
+ :  ( channel * kernal_size  * filter ) + ( bias * filter)
+   = ( input_dim * kernal_size +  1 ) * output
+ ex) (     1     *  (2 * 2)    +  1 ) *   10  
+"""
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+keras51_homework.py
