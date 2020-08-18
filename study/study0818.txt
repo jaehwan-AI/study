@@ -1,0 +1,26 @@
+Sequential vs Functional
+
+- sequential은 단순히 층을 쌓는 방식으로 직관적이고 편리하지만 복잡한 모델(다중 입력, 출력 모델)을 구현할 수 없다.
+
+- functional은 입력 데이터의 크기(shape)를 Input() 함수로 정의 해줘야한다.
+- functional은 이전 층을 다음 층 함수의 입력으로 사용하고 변수에 할당한다.
+- Model() 함수를 통해 입력과 출력을 정해준다.
+- functional은 다중 입력, 다중 출력 모델 구현이 가능하다.
+
+------------------------------------------------------
+
+ensemble
+
+1. concatenate
+from tensorflow.keras.layers import concatenate
+-> merge = concatenate([x1, x2])
+
+2. add
+from tensorflow.keras.layers import Add
+-> add_layer = Add()([x1, x2])
+
+3. subtract
+from tensorflow.keras.layers import Subtract
+-> sub_layer = Subtract()([x1, x2])
+
+
