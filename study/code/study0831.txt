@@ -1,0 +1,27 @@
+boosting
+-> 간단하면서도 성능이 매우 높은 앙상블 기법
+-> 학습 round를 진행하면서 모델을 생성, 모델에 의해 각 Instance의 weight를 업데이트
+-> Instance weight가 높은 instance를 중심으로 모델을 생성
+-> 해당 모델들로 앙상블 모델을 만듦(meta-classifier)
+-> 잘못 분류된 데이터를 더 잘 분류해보자
+
+Adaboost
+-> Adapative boosting
+-> 매 라운드마다 instance의 weight 값을 계산
+-> 틀리는 instance의 weight를 증가시키고 weight를 기준으로 resampling
+-> instance weight의 합이 클수록, model의 weight를 줄인다.
+-> 기본 분류기에 입력값을 변화시켜 새로운 분류기를 만든다.
+-> high-depth tree, NN에는 적합하지 않음
+
+xgboost
+-> 훌륭한 그라디언트 부스팅 라이브러리. 병렬 처리를 사용하기에 학습과 분류가 빠르다.
+-> 유연성이 좋다. 평가 함수를 포함하여 다양한 커스텀 최적화 옵션을 제공한다.
+-> greedy-알고리즘을 사용한 자동 가지치기가 가능하다. 따라서 과적합이 잘 일어나지 않는다.
+-> 다른 알고리즘과 연계 활용성이 좋다.
+
+----------------------------------------------------------
+
+pipe = Pipeline([('scaler', StandardScaler()), ('svc', SVC())])
+
+pipe.fit(x_train, y_train)
+Pipeline(steps=[('sclaer', StandardScaler()), ('clf', DecisionTreeClassifier())])
