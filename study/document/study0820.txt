@@ -1,0 +1,24 @@
+class에 대한 스터디
+https://wikidocs.net/book/110
+
+self의 개념, 쓰임
+class의 이해
+
+------------------------------------------------------------------------------
+
+accuracy에 대한 고찰
+
+- 모델 구조에 대한 이해도
+- activation (elu vs relu)
+- ResNet의 skip-connection
+- letter 정보 : 미리 딥러닝 처리(?)
+- 추가 디테일 : learning rate 등
+
+- 2048개의 적은 트레이닝셋 -> augmentation으로 데이터 불리기
+-> 데이터를 어떻게, 얼마나 불릴 것인가
+
+- DenseNet layer 구성 변경 시도 : 커널 크기, 커널 수, 스트라이드 수
+
+- ensemble 시도
+
+- training set에서 일부분을 뽑아서 validation set으로 submit 전에 미리 모델을 평가(evaluate)

@@ -1,0 +1,48 @@
+Dropout
+
+-> 일부 파라미터를 학습에 반영하지 않음으로써 모델을 일반화하는 방법이다. 무작위로 노드를 선택한다.
+-> 과적합(Overfitting)을 해결하기 위해 사용한다.
+-> validation이나 test 과정에서는 사용하면 안된다.
+
+--------------------------------------------------------------------------
+
+Batch Normalization 전/후 activation function
+
+-> Batch Normalization : 미니 batch마다 normalization을 한다는 의미이다. 정규화 과정에서 평균을 빼주고 그것을 분산으로 나눠주게 되면 -1 ~ 1의 분포를 갖게 된다.
+
+-> Dense의 raw activation(default) = 'linear'
+-> Conv의 raw activation(default) = 'relu'
+-> LSTM의 raw activation(default) = 'tanh'
+
+-> 구현 순서 : 노드에서 raw activation 값이 Batch Normalization을 거친 후 입력한 activation function 값으로 출력된다.
+input -> raw activation -> Batch Normalization -> activation function
+
+참고
+https://de-novo.org/2018/05/28/batch-normalization-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/
+
+--------------------------------------------------------------------------
+
+앙상블(Ensemble)
+
+1. 배깅(Bagging, Boostrap aggregating)
+-> 모델을 병렬로 연결해서 취합하는 방법
+-> 예를 들어 결정트리와 같은 알고리즘을 병렬로 연결한다고 하면 여러 개의 트리를 만들어서 결과를 취합한다.
+-> 결합할 때는 다수결(Majority vote)를 쓸수도 있고 가중치(Weighted Majority vote)를 쓸 수 있는데 기본으로는 다수결을 쓴다고 알려져 있다.
+-> 배깅의 대표적 알고리즘은 랜덤포레스트이다. 랜덤요소를 이용해 트리를 여러 개 만들고 합쳐서 숲을 만든다.
+
+2. 부스팅(Boosting)
+-> 틀린 문제를 노트에 적고 이것들에 집중을 하는 목적의 오답노트와 비슷한 개념이다. 틀린 케이스에 가중치를 줌으로써 이를 해결하는 것에 초점을 맞추는 모델
+-> 목적은 '정확성 향상'이다. 앞서 만든 모델이 오분류로 인한 케이스에 더 높은 가중치를 부여함으로써 이를 더 잘 해결할 수 있는 모델이 되도록 모델을 수정해 나간다.
+
+3. 스태킹(Stacking)
+-> 각 모델(분류기)에 training set으로 학습을 시킨다.
+-> 학습이 끝나면 test set으로 예측값을 도출한다.
+-> 도출된 예측값을 새로운 training set으로 만들어 최종 모델에 학습 시킨다.
+-> 최종 모델에 test set을 이용해 예측값을 도출한다.
+
+-> 위와 같은 기본 스태킹 모델은 과적합이 일어날 확률이 높아 잘 사용하지 않는다.
+-> 따라서, CV 기반의 스태킹 모델을 사용한다.
+
+-> CV 기반의 스태킹은 각 모델들이 교차 검증(KFlod 등)으로 최종 모델을 위한 학습용 데이터를 생성한다. 예측을 위한 테스트용 데이터도 생성하여 이를 기반으로 최종 모델이 학습을 진행하게 된다.
+
+-> 구현 코드 예시 : https://lsjsj92.tistory.com/559?category=853217

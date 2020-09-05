@@ -1,0 +1,26 @@
+Dataframe
+
+-> head(n) : 처음 n개의 행을 출력, default 5
+-> tail(n) : 마지막 n개의 행을 출력, default 5
+
+-> info() : 데이터프레임의 구조를 출력
+RangeIndex = 행(row)의 개수
+Data columns = 열(column)의 개수
+각 열의 데이터 개수와 타입
+
+-> descibe() : 열(column)별 데이터 개수, 평균, 표준편차, 최소값, 최대값, 사분위수(25%,50%,75%)
+
+-> value_counts() : 데이터 값별로 개수를 계산되어 출력, (normalize=True)는 %로 출력해준다.
+
+-> unique() : 데이터 값을 중복 없이 배열로 출력
+
+-> df['column_name'].values : 해당 열의 데이터값을 리스트로 출력
+
+-> sort_values(by=[1,2]) : 정렬 기준이 되는 열을 지정해서 정렬
+
+-> dropna() : 결측치가 있는 행을 삭제
+-> fillna() : 결측치가 있는 부분을 다른 값으로 채움
+method='ffill' or 'pad' : 앞 방향 값으로 채우기
+method='bfill' or 'backfill' : 뒷 방향 값으로 채우기
+limit=number : 채우는 횟수 제한
+mean() : 평균으로 채우기

@@ -1,0 +1,20 @@
+Global Average Pooling -> FCL(Fully Connected Layer)가 존재하지 않는다는 점
+-> FCL 대신 최종 layer에 average pooling을 적용
+-> 이미 NIN(Network In Network)을 통해서 좋은 feature를 선별했다고 판단
+-> average pooling만으로도 충분한 classifier에 필요한 역할을 다 할 수 있다고 판단
+
+-> FCL의 많은 파라미터는 overfitting으로 이어질 수 있다
+
+--------------------------------------------------------------------------------------
+
+augmentation 횟수를 높이면 validation data가 높아져서 validation accuracy가 높아진다.
+
+--------------------------------------------------------------------------------------
+
+kernel_initializer
+-> 가중치 초기화 방법을 따로 설정해 주지 않으면 기본적으로 케라스 레이어의 가중치 초기화 방식은 일정 구간 내에서 랜덤하게 찍는 random_uniform이다. 하지만 이러한 방식은 오차 역전파 과정에서 미분한 gradient가 지나치게 커지거나(exploding gradient) 소실되는(vanishing gradient) 문제에 빠질 위험성이 크다.
+-> LeCun 초기화 : 98년도에 얀 르쿤이 제기한 방법, 최근에 잘 사용하지 않음(lecun_uniform, lecun_normal)
+
+-> Xavier 초기화 : glorot_uniform, glorot_normal
+-> He 초기화 : ResNet으로도 유명한 Kaiming He가 2015년에 제안한 가장 최신의 초기화 방식. Xavier Initialization을 조금 개선한 것으로 경험적으로 더 좋은 결과를 내었다고 한다.
+

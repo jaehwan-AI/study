@@ -1,0 +1,30 @@
+기본 필수 도서
+-> 모두의 딥러닝
+-> 도마뱀 머신러닝
+
+model summary(parameter)
+-> LSTM(return_sequences=True)
+    4 * (bias + feature(input_dim) + node) * node
+                                               순환   노드만큼
+    return_sequences=True
+    -> LSTM의 output 차원이 늘어난다
+-> return_sequences=True인 LSTM 레이어 다음에 Dense 레이어는 올 수 있지만
+    Dense output의 차원이 달라진다
+
+시계열 데이터 = LSTM, 이미지 데이터 = CNN 이라는 고정관념을 버려야 한다
+어떤 모델이든 데이터 형태(input shape)가 중요하다
+어떤 데이터인지는 중요하지 않다
+-> 데이터의 형태로 여러 모델 구사해보기
+
+- 이전 레이어의 output은 다음 레이어의 input이다
+
+- 면접에서 설명할 수 있을 정도로 코드를 익힌다
+- 사용자 함수를 많이 모듈화하면 좋다
+
+--------------------------------------------------------------------------------------------
+
+1. 함수형 모델
+2. 앙상블
+3. MNIST, 유방암, 당뇨병, Iris(데이터셋 4개) -> DNN, CNN, LSTM -> Sequential, 함수형 -> 24개 모델
+
+월요일 오전 9시까지(그전에도 가능) 24개 모델을 전체를 압축해서 선생님께 메일을 보내기
