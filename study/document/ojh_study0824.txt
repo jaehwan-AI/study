@@ -1,0 +1,32 @@
+Dropout
+
+-> 일부 파라미터를 학습에 반영하지 않음으로써 모델을 일반화하는 방법이다. 무작위로 노드를 선택한다.
+-> 과적합(Overfitting)을 해결하기 위해 사용한다.
+-> validation이나 test 과정에서는 사용하면 안된다.
+
+--------------------------------------------------------------------------
+
+Batch Normalization 전/후 activation function
+
+-> Batch Normalization : 미니 batch마다 normalization을 한다는 의미이다. 정규화 과정에서 평균을 빼주고 그것을 분산으로 나눠주게 되면 -1 ~ 1의 분포를 갖게 된다.
+
+-> 입력층보다 깊은, 내부에 있는 층의 입력값, 즉 공변량(covariate)이 고정된 분포를 갖지 않고 이리저리 움직이는(shift) internal covariate shift문제를 해결하는 기술이다.
+
+장점
+-> bias 업데이트를 무시하지 않는다.
+-> 필요한 경우 표준화를 하지 않을 수도 있다.
+-> Activation 값을 적당한 크기로 유지하기 때문에 vanishing gradient 현상을 어느정도 막아준다.
+-> 입력 분포가 안정되므로 학습시 손실함수가 더 빨리, 더 좋은 값으로 수렴한다.
+-> 초기 학습률을 크게 설정해도 안정적으로 수렴한다.
+
+
+-> Dense의 raw activation(default) = 'linear'
+-> Conv의 raw activation(default) = 'relu'
+-> LSTM의 raw activation(default) = 'tanh'
+
+-> 구현 순서 : 노드에서 raw activation 값이 Batch Normalization을 거친 후 입력한 activation function 값으로 출력된다.
+input -> raw activation -> Batch Normalization -> activation function
+
+참고
+https://de-novo.org/2018/05/28/batch-normalization-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/
+

@@ -1,0 +1,31 @@
+L1 regularization
+
+-> cost function에 가중치의 절대값을 더해준다. 기존의 cost function에 가중치의 크기가 포함되면서 가중치가 너무 크지 않은 방향으로 학습되도록 한다. 이때, lambda는 학습률 같은 상수로 0에 가까울수록 정규화의 효과는 없어진다.
+
+-> L1 regularization을 사용하는 regression model을 Least Absolute Shrinkage and Selection Operater(Lasso) regression이라고 부른다.
+
+-> 많은 feature들의 가중치를 0으로 만든다. 즉 대부분의 쎄타를 0으로 만들고 몇몇 쎄타를 이용해 값을 예측한다. 일부의 feature만으로 solution을 찾는 것. (feature selection 효과)
+
+
+L2 regularization
+
+-> 기존의 cost function에 가중치의 제곱을 포함하여 더함으로써 L1 regularization과 마찬가지로 가중치가 너무 크지 않은 방향으로 학습되게 된다. 이를 Weight decay라고도 한다.
+
+-> L2 regularization을 사용하는 regression model을 Ridge regression이라고 부른다.
+
+-> 많은 feature들의 가중치를 0으로 만들지 않고 0에 아주 가까운 값으로 만든다. 즉 영향력이 낮은 feature도 유지하고 이를 통해 더 좋은 예측값을 찾고자 한다.
+
+Regularization : 가중치 w가 작아지도록 학습한다는 것은 결국 Local noise에 영향을 덜 받도록 하겠다는 것이며 이는 outlier의 영향을 더 적게 받도록 하겠다는 것이다.
+
+
+Dense에서의 적용
+from tensorflow.keras import regularizers
+Dense(kernel_regularizer=regularizers.l1_l2(l1=1e-5, l2=1e-4),
+	bias_regularizer=regularizers.l2(1e-4),
+	activity_regularizer=regularizers.l2(1e-5))
+
+tensorflow.keras.regularizers.l1(l1=0.01, **kwargs)
+Dense(kernel_regularizer='l1')
+
+tensorflow.keras.regularizers.l1(l1=0.01, **kwargs)
+Dense(kernel_regularizer='l2')

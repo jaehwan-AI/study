@@ -1,0 +1,19 @@
+Batch Normalization
+
+-> gradient vanishing / gradient exploding 문제가 일어나지 않도록 하는 아이디어 중 하나이다.
+
+-> 인공신경망의 입력값을 평균이 0, 분산이 1로 정규화하여 네트워크의 학습이 잘 일어나도록 하는 방식이다.
+
+-> Batch Normalization은 신경망에 포함이 되기 때문에 역전파를 통해 학습이 가능하다.
+
+-> DNN의 non-linearity 앞 단에 위치하여 Covariate Shift 문제 해결을 위해 입력들의 분포를 조절하는 역할을 한다.(raw activation과 activation function 사이에 위치)
+(https://de-novo.org/2018/05/28/batch-normalization-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/)
+
+장점
+1) 기존 deep network에서는 학습률을 너무 높게 잡을 경우 gradient가 explode/vanish하거나, 나쁜 local minima에 빠지는 문제가 있었다. 이는 파라미터들의 scale 때문인데, Batch Normalization을 사용할 경우 propagation할 때 파라미터의 scale의 영향을 받지 않게 된다. 따라서, 학습률을 크게 잡을 수 있게 되고 이는 빠른 학습을 가능케 한다.
+2) Batch Normalization의 경우 자체적인 regularization 효과가 있다. 이는 기존에 사용하던 weight regularization term 등을 제외할 수 있게 하며, 나아가 Dropout을 제외할 수 있게 한다. Dropout의 경우 효과는 좋지만 학습 속도가 다소 느려진다는 단점이 있다.
+
+----------------------------------------------------------------------------
+
+Dropout
+

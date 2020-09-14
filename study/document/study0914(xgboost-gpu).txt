@@ -1,0 +1,44 @@
+xgboost GPU 사용법
+
+-> 설치 및 설정
+
+1. git에서 xgboost 소스 다운로드
+git clone --recursive https://github.com/dmlc/xgboost xgboostGPU
+
+2. xgboost submodule 업데이트
+git submodule init
+git submodule update
+cd xgboostGPU
+
+2-1. Visual Studio 2015 community, SDK 설치
+https://stackoverflow.com/questions/44290672/how-to-download-visual-studio-community-edition-2015-not-2017
+custom -> C++, SDK 추가
+
+2-2. CUDA/cuDNN 설치
+https://www.tensorflow.org/install/source#tested_build_configurations
+
+3. CMake로 build files 생성
+mkdir build
+cd build
+cmake .. -G "Visual Studio 14 2015 Win64" -DUSE_CUDA=ON
+cmake --build .--config Release
+python package install
+
+4. Visual Studio 14 2015로 만든 build를 선택하고 'Release'와 'x64로 설정 -> xgboost를 오른쪽 클릭하고 'bulid' 선택
+
+5. python wrapper 설치
+cd ../python-package
+python setup.py install
+
+6. 실행테스트
+cd ../demo
+cd gpu_acceleration
+python cover_type.py
+
+-> 사용법
+tree_method = 'gpu_exact' or 'gpu_hist'
+
+-----------------------------------------------------------
+
+xgboost에서의 epochs
+-> num_rounds
